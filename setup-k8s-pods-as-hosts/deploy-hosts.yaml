@@ -22,7 +22,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: service-a
+  name: svc-a-nodeports
 spec:
   selector:
     app: container-a
@@ -38,6 +38,20 @@ spec:
     port: 8000
     targetPort: 8000
     nodePort: 30799
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: svc-a-clusterip
+spec:
+  selector:
+    app: container-a
+  type: ClusterIP
+  ports:
+  - name: ssh
+    protocol: TCP
+    port: 22
+    targetPort: 22
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -63,7 +77,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: service-b
+  name: svc-b-nodeports
 spec:
   selector:
     app: container-b
@@ -79,3 +93,17 @@ spec:
     port: 8000
     targetPort: 8000
     nodePort: 30800
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: svc-b-clusterip
+spec:
+  selector:
+    app: container-b
+  type: ClusterIP
+  ports:
+  - name: ssh
+    protocol: TCP
+    port: 22
+    targetPort: 22
