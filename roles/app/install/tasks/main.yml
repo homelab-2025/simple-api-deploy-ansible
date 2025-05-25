@@ -1,0 +1,57 @@
+---
+- name: Install Prerequisites
+  apt:
+    name:
+      - git
+      - python3
+      - python3-pip
+      - python3-venv
+    state: present
+
+- name: Create application group
+  group:
+    name: "{{ fastapi_app_group }}"
+    state: present
+
+- name: Create application user
+  user:
+    name: "{{ fastapi_app_user }}"
+    group: "{{ fastapi_app_group }}"
+    create_home: no
+    system: yes
+
+- name: Clone repo
+  git:
+    repo: "{{ fastapi_app_git_repo }}"
+    dest: "{{ fastapi_app_dest }}"
+    version: "main"
+    force: yes
+
+- name: Create Python venv
+  command: python3 -m venv {{ fastapi_app_venv }}
+  args:
+    creates: "{{ fastapi_app_venv }}/bin/activate"
+
+- name: Install fastapi, gunicorn and uvicorn
+  pip:
+    name:
+      - fastapi
+      - gunicorn
+      - uvicorn
+    virtualenv: "{{ fastapi_app_venv }}"
+
+- name: Copy systemd service
+  template:
+    src: fastapi_app.service.j2
+    dest: /etc/systemd/system/fastapi_app.service
+    mode: 0644
+
+- name: Reload systemd
+  systemd:
+    daemon_reload: yes
+
+- name: Activate and startFastAPI service
+  systemd:
+    name: fastapi_app.service
+    enabled: yes
+    state: started

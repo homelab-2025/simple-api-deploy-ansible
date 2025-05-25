@@ -1,0 +1,6 @@
+---
+- name: Simple API Deployment
+  hosts: all
+  become: true
+  roles:
+    - role: app/install

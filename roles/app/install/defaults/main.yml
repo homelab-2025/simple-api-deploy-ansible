@@ -1,0 +1,5 @@
+fastapi_app_git_repo: "https://github.com/homelab-2025/simple-api.git"
+fastapi_app_dest: "/opt/fastapi-app"
+fastapi_app_user: "fastapi"
+fastapi_app_group: "fastapi"
+fastapi_app_venv: "/opt/fastapi-app/.venv"
