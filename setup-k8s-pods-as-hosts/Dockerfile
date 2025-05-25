@@ -8,6 +8,7 @@ RUN apt-get update && \
     mkdir /var/run/sshd && \
     useradd -m -s /bin/bash user && \
     echo 'user:user' | chpasswd && \
+    usermod -aG sudo user && \
     mkdir -p /home/user/.ssh && \
     chown user:user /home/user/.ssh && \
     chmod 700 /home/user/.ssh
