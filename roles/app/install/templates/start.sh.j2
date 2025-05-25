@@ -1,0 +1,6 @@
+#!/bin/bash
+source {{ fastapi_app_venv }}/bin/activate
+cd {{ fastapi_app_dest }}
+exec {{ fastapi_app_venv }}/bin/gunicorn \
+  -k uvicorn.workers.UvicornWorker \
+  -c gunicorn_config.py
