@@ -46,9 +46,8 @@
     dest: "{{ fastapi_app_dest }}/start.sh"
     mode: 0755
 
-
 - name: Start FastAPI using shell
   shell: "nohup ./start.sh & echo $! > fastapi.pid"
   args:
     chdir: "{{ fastapi_app_dest }}"
-  creates: "{{ fastapi_app_dest }}/fastapi.pid"
+    creates: "{{ fastapi_app_dest }}/fastapi.pid"
